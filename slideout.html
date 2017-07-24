@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Slideout Demo</title>
+        <meta http-equiv="cleartype" content="on">
+        <meta name="MobileOptimized" content="320">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <link rel=stylesheet type=text/css href="css/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+        rel="stylesheet">
+    </head>
+    <body>
+        <header class="fixed-header">
+            <button class="toggle-button">☰</button>
+            <!-- <h2>Panel</h2> -->
+        </header>
+
+        <nav id="menu">
+            <h2>Menu</h2>
+        </nav>
+
+        <main id="panel">
+            <div class="container">
+                <div id="map"></div>
+
+            </div>
+        </main>
+
+        <script src="script/slideout.js"></script>
+        <script src="script/slideout_setup.js"></script>
+        <script>
+            // TODO: Create a map variable
+            var map;
+            // TODO: Complete the following function to initialize the map
+            function initMap() {
+            // TODO: use a constructor to create a new map JS object. You can use the coordinates
+            // we used, 40.7413549, -73.99802439999996 or your own!
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 37.805301, lng: -122.219371},
+                    zoom: 10
+                });
+            }
+        </script>
+        <script async defer
+             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAneUuqf7-G2I8EUI0XvWfXuTM6FzbaG5c&callback=initMap">
+        </script>
+    </body>
+</html>
