@@ -20,17 +20,27 @@
 
         <nav id="menu">
             <h2>Menu</h2>
+            <p><span data-bind="text: first"></span> </p>
+            <p>Test: <input data-bind="value: first" /></p>
         </nav>
 
-        <main id="panel">
+        <main id="panel" class="container">
             <div class="container">
                 <div id="map"></div>
-
             </div>
         </main>
 
         <script src="script/slideout.js"></script>
         <script src="script/slideout_setup.js"></script>
+        <script type='text/javascript' src='script/knockout-3.4.2.js'></script>
+
+        <script type=text/javascript>
+            var viewModel = {
+                first: ko.observable("First Test")
+            };
+            ko.applyBindings(viewModel);
+        </script>
+
         <script>
             // TODO: Create a map variable
             var map;
