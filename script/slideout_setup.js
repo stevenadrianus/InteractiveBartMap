@@ -32,4 +32,4 @@ slideout.on('open', function () {
 
 slideout.on('close', function () {
   fixed.style.transition = '';
-});
+}); 
