@@ -31,7 +31,8 @@ div {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   display: none;
-  background-color: gray;
+  background-color: black;
+  color: gray;
 }
 
 .slideout-panel {
