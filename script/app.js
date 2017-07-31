@@ -5,6 +5,30 @@ function createMap(){
     });
 }
 
+// The infowindow generator for the marker on the maps
+function populateInfoWindow(marker, infowindow, data) {
+    var contentString = '<div id="iw-container">' +
+                    '<div class="iw-title">' + data.main + '</div>' +
+                    '<div class="iw-content">' +
+                      '<div class="iw-subTitle">Yelp data:</div>' +
+                      '<img src="http://maps.marnoto.com/en/5wayscustomizeinfowindow/images/vistalegre.jpg" alt="Porcelain Factory of Vista Alegre" height="115" width="83">' +
+                      '<p>' + data.location.display_address + '</p>' +
+                      '<div class="iw-subTitle">Contacts</div>' +
+                      '<p>VISTA ALEGRE ATLANTIS, SA<br>3830-292 Ílhavo - Portugal<br>'+
+                      '<br>Phone. +351 234 320 600<br>e-mail: geral@vaa.pt<br>www: www.myvistaalegre.com</p>'+
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
+    infowindow.setContent(contentString);
+    infowindow.open(map,marker);
+
+
+}
+var infowindow = new google.maps.InfoWindow({
+    maxWidth: 350
+});
+
+
 var ViewModel = function(map, bartStation) {
     var self = this;
 
@@ -12,10 +36,10 @@ var ViewModel = function(map, bartStation) {
 
     function point(data) {
         this.main = data.main;
-        this.image = data.image;
+        this.image = data.image_url;
         this.review_count = data.review_count;
         this.rating = data.rating;
-        this.coordinates = {lat:data.coordinates.latitude, lng:data.coordinates.longitude};
+        this.coordinates = {lat:data.coordinates.latitude,                      lng:data.coordinates.longitude};
         this.address = data.location.display_address;
         this.googleMarker = new google.maps.Marker({
             map: map,
@@ -23,6 +47,35 @@ var ViewModel = function(map, bartStation) {
             title: this.main,
             animation: google.maps.Animation.DROP
         });
+
+        var contentString = '<h2>' + this.main + '</h2>';
+        // console.log(contentString);
+            // '<img src='this.image'/>';
+
+
+        // var infowindow = new google.maps.InfoWindow({
+        //     content: contentString,
+        // });
+
+        infowindow.marker = this.googleMarker;
+
+        this.listInfoWindow = function(){
+            populateInfoWindow(this.googleMarker, infowindow, data);
+        };
+
+        this.googleMarker.addListener('click', function() {
+            populateInfoWindow(this, infowindow, data)
+        });
+
+        self.map.addListener('click', function(){
+            infowindow.close();
+        })
+
+
+
+        // google.maps.event.addListener(googleMarker, 'click', function() {
+        //     infowindow.open(map, googleMarker)
+        // });
     }
 
     self.bartList = [];
@@ -63,7 +116,10 @@ var ViewModel = function(map, bartStation) {
     //         self.filterMarkers();
     //     }
     // }, this);
+
 }
+
+
 
 google.maps.event.addDomListener(window, 'load', function() {
     // Bart Station data, pulled up from yelp API (v3 fusion api)

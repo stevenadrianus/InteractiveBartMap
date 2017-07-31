@@ -28,7 +28,7 @@
             <input data-bind="value: filterWord, valueUpdate:'input'" placeholder="filter" />
             <button data-bind="click: filterMarkers">Filter</button>
             <ul data-bind="foreach: visibleMarkers">
-                <li data-bind="text: main"></li>
+                <li data-bind="text: main, click: listInfoWindow"></li>
             </ul>
         </nav>
 
@@ -78,3 +78,5 @@
 
     </body>
 </html>
+
+<!-- Infowindow template obtained from https://codepen.io/Marnoto/pen/xboPmG -->
