@@ -7,19 +7,51 @@ function createMap(){
 
 // The infowindow generator for the marker on the maps
 function populateInfoWindow(marker, infowindow, data) {
+    infowindow.setContent(null);
+
     var contentString = '<div id="iw-container">' +
-                    '<div class="iw-title">' + data.main + '</div>' +
-                    '<div class="iw-content">' +
-                      '<div class="iw-subTitle">Yelp data:</div>' +
-                      '<img src="http://maps.marnoto.com/en/5wayscustomizeinfowindow/images/vistalegre.jpg" alt="Porcelain Factory of Vista Alegre" height="115" width="83">' +
-                      '<p>' + data.location.display_address + '</p>' +
-                      '<div class="iw-subTitle">Contacts</div>' +
-                      '<p>VISTA ALEGRE ATLANTIS, SA<br>3830-292 Ílhavo - Portugal<br>'+
-                      '<br>Phone. +351 234 320 600<br>e-mail: geral@vaa.pt<br>www: www.myvistaalegre.com</p>'+
-                    '</div>' +
-                    '<div class="iw-bottom-gradient"></div>' +
-                  '</div>';
-    infowindow.setContent(contentString);
+                            '<div class="iw-title">' + data.main + '</div>' +
+                            '<div class="iw-content">' +
+                                // '<div class="iw-subTitle">Yelp data:</div>' +
+                                '<p>' + data.location.display_address + '<br>' +
+                                'Rating : ' + data.rating + ' / 5.0<br>'+
+                                data.review_count + ' Total Reviews</p>' +
+                                '<div class="iw-subTitle">Nearby Restaurants</div>';
+
+    //Pulling up date from zomato API
+    var requestURL = "https://developers.zomato.com/api/v2.1/search?count=3&lat=" +
+        data.coordinates.latitude + "&lon=" + data.coordinates.longitude +
+        "&radius=1000&sort=real_distance&order=asc";
+
+    var zomatoData;
+
+    $.ajax({
+        beforeSend: function(request) {
+            request.setRequestHeader("user-key", '2ff3ad85baed2cae9efec2b43afe84ca');
+        },
+        dataType: "json",
+        url: requestURL,
+        success: function(data) {
+            console.log(data);
+            zomatoData = data.restaurants;
+            console.log(zomatoData);
+            for (let i = 0; i < 3; i++) {
+                contentString += '<h3>' + zomatoData[i].restaurant.name + '</h3>';
+            }
+            contentString += '</div>' +
+                            '<div class="iw-bottom-gradient"></div>' +
+                            '</div>';
+                            infowindow.setContent(contentString);
+        }
+    });
+
+
+
+
+    // for (let i = 0; i < 3; i++) {
+    //     contentString +=
+    // }
+
     infowindow.open(map,marker);
 
 
@@ -39,7 +71,7 @@ var ViewModel = function(map, bartStation) {
         this.image = data.image_url;
         this.review_count = data.review_count;
         this.rating = data.rating;
-        this.coordinates = {lat:data.coordinates.latitude,                      lng:data.coordinates.longitude};
+        this.coordinates = {lat:data.coordinates.latitude, lng:data.coordinates.longitude};
         this.address = data.location.display_address;
         this.googleMarker = new google.maps.Marker({
             map: map,
@@ -68,8 +100,11 @@ var ViewModel = function(map, bartStation) {
         });
 
         self.map.addListener('click', function(){
+            infowindow.setContent(null);
             infowindow.close();
         })
+
+
 
 
 
