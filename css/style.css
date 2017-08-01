@@ -18,6 +18,10 @@ div {
 	display: block;
 }
 
+a {
+    color: black;
+}
+
 
 .slideout-menu {
   position: fixed;
@@ -114,8 +118,8 @@ div {
 	font-weight: 400;
 	margin-right: 1px;
 	padding: 15px 5px 20px 15px;
-	max-height: 140px;
-    min-width: 300px;
+	height: 140px;
+    width: 300px;
 	overflow-y: auto;
 	overflow-x: hidden;
 }

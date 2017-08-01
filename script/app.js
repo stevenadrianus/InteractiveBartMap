@@ -21,7 +21,7 @@ function populateInfoWindow(marker, infowindow, data) {
     //Pulling up date from zomato API
     var requestURL = "https://developers.zomato.com/api/v2.1/search?count=3&lat=" +
         data.coordinates.latitude + "&lon=" + data.coordinates.longitude +
-        "&radius=1000&sort=real_distance&order=asc";
+        "&radius=3000&sort=real_distance&order=asc";
 
     var zomatoData;
 
@@ -32,16 +32,28 @@ function populateInfoWindow(marker, infowindow, data) {
         dataType: "json",
         url: requestURL,
         success: function(data) {
-            console.log(data);
             zomatoData = data.restaurants;
-            console.log(zomatoData);
             for (let i = 0; i < 3; i++) {
-                contentString += '<h3>' + zomatoData[i].restaurant.name + '</h3>';
+                var currentRestaurant = zomatoData[i].restaurant;
+                contentString += '<a href=' + currentRestaurant.url + 'color="black">' +
+                '<h3>' + currentRestaurant.name + '</h3></a>';
+                if (currentRestaurant.featured_image){
+                    contentString += '<img src=' + currentRestaurant.featured_image +
+                    ' height="100" width="100">';
+                }
+                contentString += '<p>' + currentRestaurant.location.address + "<br>" +
+                    "Rating: " + currentRestaurant.user_rating.aggregate_rating + " / 5.0<br>" +
+                    currentRestaurant.user_rating.votes + " Total Reviews<br>" +
+                    "Average cost for two: $" + currentRestaurant.average_cost_for_two +
+                    '</p>';
+
             }
-            contentString += '</div>' +
-                            '<div class="iw-bottom-gradient"></div>' +
-                            '</div>';
-                            infowindow.setContent(contentString);
+            contentString += '<sub>Powered by Yelp & Zomato</sub>'
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                    '</div>';
+            infowindow.setContent(contentString);
+
         }
     });
 
@@ -93,10 +105,18 @@ var ViewModel = function(map, bartStation) {
 
         this.listInfoWindow = function(){
             populateInfoWindow(this.googleMarker, infowindow, data);
+            var divHeightOfTheMap = document.getElementById('map').clientHeight;
+            var offSetFromBottom = 50;
+            map.setCenter(this.googleMarker.getPosition());
+            map.panBy(0, -(divHeightOfTheMap / 2 - offSetFromBottom));
         };
 
         this.googleMarker.addListener('click', function() {
             populateInfoWindow(this, infowindow, data)
+            var divHeightOfTheMap = document.getElementById('map').clientHeight;
+            var offSetFromBottom = 50;
+            map.setCenter(this.getPosition());
+            map.panBy(0, -(divHeightOfTheMap / 2 - offSetFromBottom));
         });
 
         self.map.addListener('click', function(){

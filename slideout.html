@@ -26,8 +26,7 @@
             <h2>Menu</h2>
             <!-- <p><span data-bind="text: first"></span> </p>
             <p>Test: <input data-bind="value: first" /></p> -->
-            <input data-bind="value: filterWord, valueUpdate:'input'" placeholder="filter" />
-            <button data-bind="click: filterMarkers">Filter</button>
+            <input data-bind="value: filterWord, valueUpdate:'input'" placeholder="Filter Keyword" />
             <ul data-bind="foreach: visibleMarkers">
                 <li data-bind="text: main, click: listInfoWindow"></li>
             </ul>
