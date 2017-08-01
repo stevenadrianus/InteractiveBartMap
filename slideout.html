@@ -23,12 +23,12 @@
         </header>
 
         <nav id="menu">
-            <h2>Menu</h2>
+            <h1>Menu</h1>
             <!-- <p><span data-bind="text: first"></span> </p>
             <p>Test: <input data-bind="value: first" /></p> -->
             <input data-bind="value: filterWord, valueUpdate:'input'" placeholder="Filter Keyword" />
-            <ul data-bind="foreach: visibleMarkers">
-                <li data-bind="text: main, click: listInfoWindow"></li>
+            <ul class="bartList" data-bind="foreach: visibleMarkers">
+                <h4><li data-bind="text: main, click: listInfoWindow"></li></h4>
             </ul>
         </nav>
 
