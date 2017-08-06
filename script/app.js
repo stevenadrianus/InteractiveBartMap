@@ -93,6 +93,7 @@ var ViewModel = function(map, bartStation) {
             var offSetFromBottom = 50;
             map.setCenter(this.googleMarker.getPosition());
             map.panBy(0, -(divHeightOfTheMap / 2 - offSetFromBottom));
+            this.googleMarker.setAnimation(google.maps.Animation.DROP);
         };
 
         // Generate the infowindow when the marker on the map is clicked
@@ -102,6 +103,7 @@ var ViewModel = function(map, bartStation) {
             var offSetFromBottom = 50;
             map.setCenter(this.getPosition());
             map.panBy(0, -(divHeightOfTheMap / 2 - offSetFromBottom));
+            this.setAnimation(google.maps.Animation.DROP);
         });
 
         // Close the infowindow whenever there is another click on the map
