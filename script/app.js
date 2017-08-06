@@ -1,3 +1,4 @@
+// This function handle the initialization of the map
 function createMap(){
     return new google.maps.Map(document.getElementById('map'), {
         center: {lat: 37.805301, lng: -122.219371},
@@ -31,6 +32,8 @@ function populateInfoWindow(marker, infowindow, data) {
         },
         dataType: "json",
         url: requestURL,
+        // If data successfully received, the restuarant info will be added to
+        // the infowindow content.
         success: function(data) {
             zomatoData = data.restaurants;
             for (let i = 0; i < 3; i++) {
@@ -48,7 +51,7 @@ function populateInfoWindow(marker, infowindow, data) {
                     '</p>';
 
             }
-            contentString += '<sub>Powered by Yelp & Zomato</sub>'
+            contentString += '<sub>Powered by Yelp & Zomato</sub>' +
                     '</div>' +
                     '<div class="iw-bottom-gradient"></div>' +
                     '</div>';
@@ -56,22 +59,10 @@ function populateInfoWindow(marker, infowindow, data) {
 
         }
     });
-
-
-
-
-    // for (let i = 0; i < 3; i++) {
-    //     contentString +=
-    // }
-
     infowindow.open(map,marker);
-
-
 }
-var infowindow = new google.maps.InfoWindow({
-    maxWidth: 350
-});
 
+var infowindow = new google.maps.InfoWindow();
 
 var ViewModel = function(map, bartStation) {
     var self = this;
@@ -79,6 +70,7 @@ var ViewModel = function(map, bartStation) {
     self.map = map;
 
     function point(data) {
+        // Initialization of the data obtained from yelp api
         this.main = data.main;
         this.image = data.image_url;
         this.review_count = data.review_count;
@@ -92,17 +84,9 @@ var ViewModel = function(map, bartStation) {
             animation: google.maps.Animation.DROP
         });
 
-        var contentString = '<h2>' + this.main + '</h2>';
-        // console.log(contentString);
-            // '<img src='this.image'/>';
-
-
-        // var infowindow = new google.maps.InfoWindow({
-        //     content: contentString,
-        // });
-
         infowindow.marker = this.googleMarker;
 
+        // Generate the infowindow when the station in the menu list is clicked
         this.listInfoWindow = function(){
             populateInfoWindow(this.googleMarker, infowindow, data);
             var divHeightOfTheMap = document.getElementById('map').clientHeight;
@@ -111,28 +95,24 @@ var ViewModel = function(map, bartStation) {
             map.panBy(0, -(divHeightOfTheMap / 2 - offSetFromBottom));
         };
 
+        // Generate the infowindow when the marker on the map is clicked
         this.googleMarker.addListener('click', function() {
-            populateInfoWindow(this, infowindow, data)
+            populateInfoWindow(this, infowindow, data);
             var divHeightOfTheMap = document.getElementById('map').clientHeight;
             var offSetFromBottom = 50;
             map.setCenter(this.getPosition());
             map.panBy(0, -(divHeightOfTheMap / 2 - offSetFromBottom));
         });
 
+        // Close the infowindow whenever there is another click on the map
+        // to prevent multiple infowindow on the same map.
         self.map.addListener('click', function(){
             infowindow.setContent(null);
             infowindow.close();
-        })
-
-
-
-
-
-        // google.maps.event.addListener(googleMarker, 'click', function() {
-        //     infowindow.open(map, googleMarker)
-        // });
+        });
     }
 
+    // Push every data from the yelp api to ko.observable
     self.bartList = [];
 
     bartStation.forEach(function(bart) {
@@ -147,6 +127,7 @@ var ViewModel = function(map, bartStation) {
 
     self.filterWord = ko.observable('');
 
+    // This function handle the filter on the menu list.
     self.filterMarkers = function() {
         var search = self.filterWord().toLowerCase();
 
@@ -165,14 +146,7 @@ var ViewModel = function(map, bartStation) {
             marker.googleMarker.setAnimation(google.maps.Animation.DROP);
         });
     };
-
-    // self.immediateFilter = ko.computed(function(){
-    //     if (self.filterWord()) {
-    //         self.filterMarkers();
-    //     }
-    // }, this);
-
-}
+};
 
 
 
@@ -1895,10 +1869,10 @@ google.maps.event.addDomListener(window, 'load', function() {
     ];
 
     var map = createMap();
-    var VM =new ViewModel(map, bartStation)
+    var VM =new ViewModel(map, bartStation);
     ko.applyBindings(VM);
 
     VM.filterWord.subscribe(function(){
         VM.filterMarkers();
-    })
+    });
 });

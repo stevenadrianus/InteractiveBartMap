@@ -19,19 +19,16 @@
     <body>
         <header class="fixed-header">
             <button class="toggle-button">☰</button>
-            <!-- <h2>Panel</h2> -->
         </header>
-
+        <!-- Menu part of the html -->
         <nav id="menu">
             <h1>Menu</h1>
-            <!-- <p><span data-bind="text: first"></span> </p>
-            <p>Test: <input data-bind="value: first" /></p> -->
             <input data-bind="value: filterWord, valueUpdate:'input'" placeholder="Filter Keyword" />
             <ul class="bartList" data-bind="foreach: visibleMarkers">
                 <h4><li data-bind="text: main, click: listInfoWindow"></li></h4>
             </ul>
         </nav>
-
+        <!-- The main container of the map -->
         <main id="panel" class="container">
             <div class="container">
                 <div id="map"></div>
@@ -41,41 +38,7 @@
         <script src="script/slideout.js"></script>
         <script src="script/slideout_setup.js"></script>
         <script type='text/javascript' src='script/knockout-3.4.2.js'></script>
-
-        <!-- <script type=text/javascript>
-            var viewModel = {
-                first: ko.observable("First Test")
-            };
-
-            // This observable array initially contains three objects
-            var anotherObservableArray = ko.observableArray([
-                { name: "Bungle", type: "Bear" },
-                { name: "George", type: "Hippo" },
-                { name: "Zippy", type: "Unknown" }
-            ]);
-            ko.applyBindings(viewModel);
-        </script> -->
-
-        <!-- <script>
-            // TODO: Create a map variable
-            var map;
-            // TODO: Complete the following function to initialize the map
-            function initMap() {
-            // TODO: use a constructor to create a new map JS object. You can use the coordinates
-            // we used, 40.7413549, -73.99802439999996 or your own!
-                map = new google.maps.Map(document.getElementById('map'), {
-                    center: {lat: 37.805301, lng: -122.219371},
-                    zoom: 11
-                });
-            }
-        </script> -->
         <script type=text/javascript src="script/app.js"></script>
-
-        <!-- <script async defer
-             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAneUuqf7-G2I8EUI0XvWfXuTM6FzbaG5c&callback=initMap" type=text/javascript>
-        </script> -->
-
-
     </body>
 </html>
 
