@@ -6,3 +6,7 @@ the bart list to the desired bart location.
 
 In creation of this program, a lot of help is provided from stackoverflow,
 slideout.js and various website.
+
+To run the project:
+1. Simply download all the files
+2. Open index.html
