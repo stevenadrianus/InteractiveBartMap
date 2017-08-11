@@ -7,13 +7,12 @@
         <meta name="MobileOptimized" content="320">
         <meta name="HandheldFriendly" content="True">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
         <link rel=stylesheet type=text/css href="css/style.css">
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
         rel="stylesheet">
 
-        <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAneUuqf7-G2I8EUI0XvWfXuTM6FzbaG5c&callback=initMaps" type=text/javascript>
-        </script>
+
         <script src="script/jquery-3.2.1.min.js"></script>
     </head>
     <body>
@@ -38,7 +37,10 @@
         <script src="script/slideout.js"></script>
         <script src="script/slideout_setup.js"></script>
         <script type='text/javascript' src='script/knockout-3.4.2.js'></script>
+        <script type='text/javascript' src='script/data.js'></script>
         <script type=text/javascript src="script/app.js"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAneUuqf7-G2I8EUI0XvWfXuTM6FzbaG5c&callback=initMaps" onerror="mapsErrorHandling()" type=text/javascript>
+        </script>
     </body>
 </html>
 
